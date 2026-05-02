@@ -24,13 +24,16 @@ class Tablero:
     def obtener_tamanio(self):
         return self.tamanio
     
-    def manejar_click(self, pieza):
-        if pieza.fue_clickeada():
+    def manejar_click(self, pieza, bandera):
+        if bandera:
+            pieza.alternar_marcada()
+            return
+        if pieza.fue_clickeada() or pieza.informar_marcada():
             return 
         pieza.clickear()
         if pieza.obtener_cantidad_bombas_vecinos() == 0:
             for vecino in pieza.obtener_vecinos():
-                self.manejar_click(vecino)
+                self.manejar_click(vecino, False)
          
 
     def obtener_pieza(self, indice):

@@ -4,6 +4,7 @@ class Pieza:
         self.clickeada = False
         self.vecinos = []
         self.cantidad_bombas_vecinos = 0
+        self.marcada = False
 
     def clickear(self):
         self.clickeada = True
@@ -33,3 +34,10 @@ class Pieza:
     
     def obtener_vecinos(self):
         return self.vecinos
+    
+    def informar_marcada(self):
+        return self.marcada
+    
+    def alternar_marcada(self):
+        self.marcada = not self.marcada
+
