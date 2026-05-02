@@ -14,6 +14,7 @@ class Tablero:
                 pieza = Pieza(tiene_bomba)
                 fila.append(pieza)
             self.tablero.append(fila)
+        self._obtener_vecinos()
       
       # Getter y setter para encapsular el acceso a los atributos 
     def obtener_tablero(self):
@@ -30,3 +31,20 @@ class Tablero:
     def obtener_pieza(self, indice):
         return self.tablero[indice[0]][indice[1]]
     
+    def _obtener_vecinos(self):
+        for fila in range(len(self.tablero)):
+            for columna in range(len(self.tablero[0])):
+                pieza=self.tablero[fila][columna]
+                vecinos = []
+                self.agregar_lista_vecinos(vecinos, fila, columna)
+                pieza.establecer_vecinos(vecinos)
+                print(len(vecinos))
+    
+    def agregar_lista_vecinos(self, vecinos, fila, columna):
+            for f in range(fila - 1, fila+2):
+                for c in range(columna - 1, columna+2):
+                    if f == fila and c == columna:
+                        continue
+                    if f < 0 or f >= self.tamanio[0] or c < 0 or c >= self.tamanio[1]:
+                        continue
+                    vecinos.append(self.tablero[f][c])

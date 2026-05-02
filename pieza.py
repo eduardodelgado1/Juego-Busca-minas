@@ -2,6 +2,7 @@ class Pieza:
     def __init__(self, tiene_bomba):
         self.tiene_bomba = tiene_bomba
         self.clickeada = False
+        self.vecinos = []
 
     def clickear(self):
         self.clickeada = True
@@ -14,3 +15,6 @@ class Pieza:
 
     def __str__(self):
         return str(self.tiene_bomba)
+    
+    def establecer_vecinos(self, vecinos):
+        self.vecinos = vecinos
