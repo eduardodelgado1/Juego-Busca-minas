@@ -8,3 +8,9 @@ class Pieza:
 
     def fue_clickeada(self):
         return self.clickeada
+
+    def informar_tiene_bomba(self):
+        return self.tiene_bomba
+
+    def __str__(self):
+        return str(self.tiene_bomba)

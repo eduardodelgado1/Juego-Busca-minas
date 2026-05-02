@@ -2,6 +2,8 @@ import pygame
 from gestor_eventos import GestorEventos
 from tablero import Tablero
 from randerizador import Randerizador
+from gestor_recursos import GestorRecursos
+
 
 class Juego:
     def __init__(self,tamanio,dificultad):
@@ -14,8 +16,10 @@ class Juego:
         self._tamnio_pantalla =(self._tamanio_pieza[0] * tamanio[0], 
                                 self._tamanio_pieza[1] * tamanio[1])
         self._pantalla = pygame.display.set_mode(self._tamnio_pantalla)
+        self.gestor_recursos = GestorRecursos(self._tamanio_pieza)
+        self._imagenes = self.gestor_recursos.cargar_imagen()
         self._gestor_eventos = GestorEventos(self)
-        self._randerizador = Randerizador(self, self._pantalla, self._tamanio_pieza)
+        self._randerizador = Randerizador(self, self._pantalla, self._tamanio_pieza,self._imagenes)
 
         pygame.display.set_caption("Busca Minas")
         imagen_icono = pygame.image.load("images/icono.png")
