@@ -1,4 +1,7 @@
 import pygame
+import tkinter as tk
+from tkinter import messagebox
+
 from gestor_eventos import GestorEventos
 from tablero import Tablero
 from randerizador import Randerizador
@@ -29,7 +32,13 @@ class Juego:
         ejecutando = True
         while ejecutando:
             ejecutando = self._gestor_eventos.manejar_eventos()
-            self._randerizador.dibujar()
+            if (not self._tablero.informar_perdio() or self._tablero.informar_gano()):
+                self._randerizador.dibujar()
+            else:
+                self._randerizador.dibujar()  # Redibujar el tablero para mostrar las bombas
+                pygame.display.flip()
+                self.mostrar_mensaje_fin_juego(self._tablero.informar_gano())
+                ejecutando = False
             pygame.display.flip()
 
     def obtener_tablero(self):
@@ -41,7 +50,12 @@ class Juego:
         indice = tuple(int(pos //tamanio) for pos, tamanio in zip(posicion, self._tamanio_pieza))[::-1]
         self._tablero.manejar_click(self._tablero.obtener_pieza(indice), bandera)
 
-    
+    def mostrar_mensaje_fin_juego(self, gano):
+        root = tk.Tk()
+        root.withdraw()  # Oculta la ventana principal
+        mensaje = "¡Felicidades, has ganado!" if gano else "¡Has hecho clic en una bomba! Perdistes."
+        messagebox.showinfo(mensaje, icon="warning")
+        root.destroy()
      
 
 

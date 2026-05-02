@@ -16,6 +16,8 @@ class Tablero:
             self.tablero.append(fila)
         self._obtener_vecinos()
         self._establecer_bombas_alrededor()
+        self._perdio = False
+        self._gano = False
       
       # Getter y setter para encapsular el acceso a los atributos 
     def obtener_tablero(self):
@@ -34,6 +36,11 @@ class Tablero:
         if pieza.obtener_cantidad_bombas_vecinos() == 0:
             for vecino in pieza.obtener_vecinos():
                 self.manejar_click(vecino, False)
+
+        if pieza.informar_tiene_bomba():
+            self._perdio = True
+        else:
+            self._gano: bool = self.verificar_gano()        
          
 
     def obtener_pieza(self, indice):
@@ -61,3 +68,17 @@ class Tablero:
         for fila in self.tablero:
             for pieza in fila:
                 pieza.calcular_cantidad_bombas_vecinos()
+
+    def informar_perdio(self):
+        return self._perdio
+
+    def informar_gano(self):
+        return self._gano
+    
+    def verificar_gano(self):
+        for fila in self.tablero:
+            for pieza in fila:
+                if not pieza.informar_tiene_bomba() and not pieza.fue_clickeada():
+                    return False
+        self._gano = True
+        return True

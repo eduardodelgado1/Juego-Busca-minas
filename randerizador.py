@@ -32,4 +32,9 @@ class Randerizador:
     def obtener_imagen(self, pieza):
         if pieza.fue_clickeada():
             return str(pieza.obtener_cantidad_bombas_vecinos() if not pieza.informar_tiene_bomba() else "bomba-clickeada")
+        if self.juego.obtener_tablero().informar_perdio():
+            if pieza.informar_tiene_bomba():
+                return "bomba-no-clickeada"
+            return "marca incorrecta" if pieza.informar_marcada() else "bloque-vacio"
+        
         return "marcada" if pieza.informar_marcada() else "bloque-vacio"
