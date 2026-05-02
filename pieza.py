@@ -1,6 +1,10 @@
 class Pieza:
     def __init__(self, tiene_bomba):
         self.tiene_bomba = tiene_bomba
+        self.clickeada = False
 
-    def movimiento_valido(self, tablero, origen, destino):
-        raise NotImplementedError("Este método debe ser implementado por las subclases.")
+    def clickear(self):
+        self.clickeada = True
+
+    def fue_clickeada(self):
+        return self.clickeada

@@ -31,4 +31,13 @@ class Juego:
     def obtener_tablero(self):
         return self._tablero
 
+
+# Manejar los click del usuario en una celda especifica del tablero
+    def manejar_click(self, posicion):        
+        indice = tuple(int(pos //tamanio) for pos, tamanio in zip(posicion, self._tamanio_pieza))[::-1]
+        self._tablero.manejar_click(self._tablero.obtener_pieza(indice))
+        print(indice)
+
+
+
         

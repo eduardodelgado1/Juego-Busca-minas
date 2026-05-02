@@ -9,5 +9,7 @@ class GestorEventos:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 return False
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                self._juego.manejar_click(pygame.mouse.get_pos())
         return True
               

@@ -21,3 +21,12 @@ class Tablero:
     
     def obtener_tamanio(self):
         return self.tamanio
+    
+    def manejar_click(self, pieza):
+        if pieza.fue_clickeada():
+            return 
+        pieza.clickear()
+
+    def obtener_pieza(self, indice):
+        return self.tablero[indice[0]][indice[1]]
+    
