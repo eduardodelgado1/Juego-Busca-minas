@@ -15,6 +15,7 @@ class Tablero:
                 fila.append(pieza)
             self.tablero.append(fila)
         self._obtener_vecinos()
+        self._establecer_bombas_alrededor()
       
       # Getter y setter para encapsular el acceso a los atributos 
     def obtener_tablero(self):
@@ -27,6 +28,10 @@ class Tablero:
         if pieza.fue_clickeada():
             return 
         pieza.clickear()
+        if pieza.obtener_cantidad_bombas_vecinos() == 0:
+            for vecino in pieza.obtener_vecinos():
+                self.manejar_click(vecino)
+         
 
     def obtener_pieza(self, indice):
         return self.tablero[indice[0]][indice[1]]
@@ -38,7 +43,7 @@ class Tablero:
                 vecinos = []
                 self.agregar_lista_vecinos(vecinos, fila, columna)
                 pieza.establecer_vecinos(vecinos)
-                print(len(vecinos))
+               
     
     def agregar_lista_vecinos(self, vecinos, fila, columna):
             for f in range(fila - 1, fila+2):
@@ -48,3 +53,8 @@ class Tablero:
                     if f < 0 or f >= self.tamanio[0] or c < 0 or c >= self.tamanio[1]:
                         continue
                     vecinos.append(self.tablero[f][c])
+
+    def _establecer_bombas_alrededor(self):
+        for fila in self.tablero:
+            for pieza in fila:
+                pieza.calcular_cantidad_bombas_vecinos()

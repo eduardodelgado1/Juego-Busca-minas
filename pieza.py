@@ -3,6 +3,7 @@ class Pieza:
         self.tiene_bomba = tiene_bomba
         self.clickeada = False
         self.vecinos = []
+        self.cantidad_bombas_vecinos = 0
 
     def clickear(self):
         self.clickeada = True
@@ -18,3 +19,17 @@ class Pieza:
     
     def establecer_vecinos(self, vecinos):
         self.vecinos = vecinos
+
+    def obtener_cantidad_bombas_vecinos(self):
+        return self.cantidad_bombas_vecinos
+    
+    def calcular_cantidad_bombas_vecinos(self):
+        num =0
+        for vecino in self.vecinos:
+            if vecino.informar_tiene_bomba():
+                num += 1
+        self.cantidad_bombas_vecinos = num
+        return self.cantidad_bombas_vecinos
+    
+    def obtener_vecinos(self):
+        return self.vecinos

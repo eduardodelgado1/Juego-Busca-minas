@@ -40,7 +40,7 @@ class Juego:
     def manejar_click(self, posicion):        
         indice = tuple(int(pos //tamanio) for pos, tamanio in zip(posicion, self._tamanio_pieza))[::-1]
         self._tablero.manejar_click(self._tablero.obtener_pieza(indice))
-        print(indice)
+     
 
 
 
