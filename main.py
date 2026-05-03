@@ -1,8 +1,9 @@
 from juego import Juego
+from ajustes import pantalla_inicio
 
 def main():
     #Configuracion Inicial del juego
-    tamanio =(10,10)
+    tamanio, dificultad = pantalla_inicio()
     #Dificultad relacionada con cantidad de bombas
     dificultad =0.2
 
