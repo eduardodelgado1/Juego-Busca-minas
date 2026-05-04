@@ -1,5 +1,8 @@
-import pygame
 import sys
+
+import pygame
+
+from gestor_recursos import IMAGES_DIR
 
 # =========================
 # COLORES
@@ -174,8 +177,9 @@ def pantalla_inicio():
 
     pygame.display.set_caption("Busca Minas")
 
-    imagen_icono = pygame.image.load("images/icono.png")
-    pygame.display.set_icon(imagen_icono)
+    pygame.display.set_icon(
+        pygame.image.load(IMAGES_DIR / "icono.png")
+    )
 
     fuente = pygame.font.SysFont(None, 48)
     fuente_chica = pygame.font.SysFont(None, 30)

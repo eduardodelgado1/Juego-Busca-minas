@@ -6,7 +6,7 @@ from tkinter import messagebox
 from gestor_eventos import GestorEventos
 from tablero import Tablero
 from randerizador import Randerizador
-from gestor_recursos import GestorRecursos
+from gestor_recursos import GestorRecursos, IMAGES_DIR
 
 
 class Juego:
@@ -38,14 +38,14 @@ class Juego:
         self._tamanio_pieza = (40, 40)
 
         # Calcular dimensiones totales de la ventana
-        self._tamnio_pantalla = (
+        self._tamanio_pantalla = (
             self._tamanio_pieza[0] * tamanio[0],
             self._tamanio_pieza[1] * tamanio[1]
         )
 
         # Crear ventana principal
         self._pantalla = pygame.display.set_mode(
-            self._tamnio_pantalla
+            self._tamanio_pantalla
         )
 
         # Cargar recursos gráficos del juego
@@ -70,9 +70,9 @@ class Juego:
         # Configuración de ventana
         pygame.display.set_caption("Busca Minas")
 
-        # Cargar y establecer ícono del juego
-        imagen_icono = pygame.image.load("images/icono.png")
-        pygame.display.set_icon(imagen_icono)
+        pygame.display.set_icon(
+            pygame.image.load(IMAGES_DIR / "icono.png")
+        )
 
     def ejecutar(self):
         """
@@ -91,32 +91,22 @@ class Juego:
             # Procesar eventos de teclado y mouse
             ejecutando = self._gestor_eventos.manejar_eventos()
 
-            # Mientras el jugador siga jugando
-            if (
+            partida_activa = (
                 not self._tablero.informar_perdio()
-                or self._tablero.informar_gano()
-            ):
+                and not self._tablero.informar_gano()
+            )
 
-                # Dibujar estado actual del tablero
+            if partida_activa:
                 self._randerizador.dibujar()
-
             else:
-
-                # Redibujar tablero para revelar bombas
                 self._randerizador.dibujar()
-
                 pygame.display.flip()
 
-                # Mostrar mensaje de fin de juego
                 if self.mostrar_mensaje_fin_juego(
                     self._tablero.informar_gano()
                 ):
-
-                    # Reiniciar juego
                     self.reiniciar_juego()
-
                 else:
-                    # Salir del ciclo principal
                     ejecutando = False
 
             # Actualizar pantalla
@@ -170,17 +160,15 @@ class Juego:
         # Ocultar ventana principal de Tkinter
         root.withdraw()
 
-        # Mensaje según resultado del juego
         mensaje = (
             "¡Felicidades, has ganado!"
             if gano
             else "¡Has hecho clic en una bomba! Perdiste."
         )
 
-        # Mostrar cuadro de diálogo
         respuesta = messagebox.askquestion(
-            mensaje,
-            "¿Deseas jugar de nuevo?",
+            "Fin de partida",
+            f"{mensaje}\n\n¿Deseas jugar de nuevo?",
             icon="warning"
         )
 

@@ -1,5 +1,7 @@
-from pieza import Pieza
+from collections import deque
 import random
+
+from pieza import Pieza
 
 
 class Tablero:
@@ -28,11 +30,11 @@ class Tablero:
         # =========================
         # Crear una matriz de objetos Pieza
         # y asignar bombas aleatoriamente
-        for fila in range(tamanio[0]):
+        for i in range(tamanio[0]):
 
-            fila = []
+            fila_piezas = []
 
-            for columna in range(tamanio[1]):
+            for j in range(tamanio[1]):
 
                 # Determinar si la casilla tendrá bomba
                 tiene_bomba = random.random() < dificultad
@@ -40,9 +42,9 @@ class Tablero:
                 # Crear pieza
                 pieza = Pieza(tiene_bomba)
 
-                fila.append(pieza)
+                fila_piezas.append(pieza)
 
-            self.tablero.append(fila)
+            self.tablero.append(fila_piezas)
 
         # Asignar vecinos a cada pieza
         self._obtener_vecinos()
@@ -104,33 +106,32 @@ class Tablero:
         ):
             return
 
-        # Revelar casilla
-        pieza.clickear()
+        # Revelado en anchura (evita recursión profunda en tableros grandes)
+        cola = deque([pieza])
 
-        # =========================
-        # REVELADO RECURSIVO
-        # =========================
-        # Si la casilla no tiene bombas vecinas,
-        # revelar automáticamente sus vecinos
-        if pieza.obtener_cantidad_bombas_vecinos() == 0:
+        while cola:
 
-            for vecino in pieza.obtener_vecinos():
+            actual = cola.popleft()
 
-                self.manejar_click(
-                    vecino,
-                    False
-                )
+            if actual.fue_clickeada() or actual.informar_marcada():
+                continue
 
-        # =========================
-        # DETECTAR DERROTA
-        # =========================
-        if pieza.informar_tiene_bomba():
+            actual.clickear()
 
-            self._perdio = True
+            if actual.informar_tiene_bomba():
+                self._perdio = True
+                self._gano = False
+                return
 
-        else:
-            # Verificar si el jugador ganó
-            self._gano = self.verificar_gano()
+            if actual.obtener_cantidad_bombas_vecinos() == 0:
+                for vecino in actual.obtener_vecinos():
+                    if (
+                        not vecino.fue_clickeada()
+                        and not vecino.informar_marcada()
+                    ):
+                        cola.append(vecino)
+
+        self._gano = self.verificar_gano()
 
     # =========================
     # ACCESO A PIEZAS
@@ -264,7 +265,5 @@ class Tablero:
                     and not pieza.fue_clickeada()
                 ):
                     return False
-
-        self._gano = True
 
         return True

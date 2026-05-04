@@ -25,7 +25,7 @@ class Pieza:
         return self.cantidad_bombas_vecinos
     
     def calcular_cantidad_bombas_vecinos(self):
-        num =0
+        num = 0
         for vecino in self.vecinos:
             if vecino.informar_tiene_bomba():
                 num += 1

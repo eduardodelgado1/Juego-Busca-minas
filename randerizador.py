@@ -6,17 +6,6 @@ class Randerizador:
         self.pantalla = pantalla
         self.tamanio_pieza = tamanio_pieza
         self.imagenes = imagenes
-        ruta_imagen = "images/bloque-vacio.png"
-
-        imagen = pygame.image.load(ruta_imagen)
-
-        self.imagen_acomodada = pygame.transform.scale(
-            imagen,
-            (
-                int(self.tamanio_pieza[0]),
-                int(self.tamanio_pieza[1])
-            )
-        )
 
     def dibujar(self):
         arriba_izquierda = (0, 0)
@@ -26,7 +15,10 @@ class Randerizador:
                 rec = pygame.Rect(arriba_izquierda, self.tamanio_pieza)
                 imagen = self.imagenes[self.obtener_imagen(pieza)]
                 self.pantalla.blit(imagen, arriba_izquierda)   
-                arriba_izquierda = (arriba_izquierda[0] + self.tamanio_pieza[0], arriba_izquierda[1])
+                arriba_izquierda = (
+                    arriba_izquierda[0] + self.tamanio_pieza[0],
+                    arriba_izquierda[1],
+                )
             arriba_izquierda = (0, arriba_izquierda[1] + self.tamanio_pieza[1])
 
     def obtener_imagen(self, pieza):
